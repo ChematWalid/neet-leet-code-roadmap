@@ -1,14 +1,21 @@
 #include <iostream>
 #include <vector>
-
+#include <unordered_map>
 
 class Solution {
 public:
     bool containsDuplicate(const std::vector<int>& nums) {
-        for(int i = 0; i < nums.size() ; i++){
-            for(int j = 0 ; j < nums.size() ; j++){
-                if (nums[i] == nums[j] && i != j) return true;
+        std::unordered_map<int, int> occ;
+        for(int num : nums){
+            if(occ.contains(num)){
+                occ[num]++;
             }
+            else{
+                occ[num] = 1;
+            }
+        }
+        for(std::pair<int, int> p : occ){
+            if(p.second > 1) return true;
         }
         return false;
     }
@@ -16,7 +23,7 @@ public:
 
 int main(){
     Solution s;
-    if(s.containsDuplicate({1,2,3,4})){
+    if(s.containsDuplicate({1,2,3,4,4})){
         std::printf("Duplicate\n");
     }
     else{
