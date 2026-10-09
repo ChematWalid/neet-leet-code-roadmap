@@ -8,6 +8,21 @@
 #include "../../common/print.hpp"
 using namespace std;
 
+
+//Hash function to make each arr a unique id for it in the map
+struct ArrayHash {
+    size_t operator()(const std::array<int, 26>& arr) const {
+        size_t hash = 0;
+        for (int count : arr) {
+            hash ^= std::hash<int>{}(count)
+                    + 0x9e3779b9
+                    + (hash << 6)
+                    + (hash >> 2);
+        }
+        return hash;
+    }
+};
+
 class Solution {
 public:
     bool isAnagram(string s, string t) {
@@ -35,7 +50,7 @@ public:
     array<int, 26> getOcc(string str){
         array<int, 26> occ{};
         for(int i = 0 ; i < str.size(); i++){
-            occ[tolower(str[i]) - 'a']++;
+            occ[str[i] - 'a']++;
         }
         return occ;
     }
@@ -46,7 +61,7 @@ public:
     //basically making the frequency of chars as a hash 
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
         vector<vector<string>> result;
-        map<array<int, 26>, vector<string>> groups;
+        unordered_map<array<int, 26>, vector<string>, ArrayHash> groups;
         for(string str : strs){
             array<int, 26> key = getOcc(str);
             groups[key].push_back(str);
