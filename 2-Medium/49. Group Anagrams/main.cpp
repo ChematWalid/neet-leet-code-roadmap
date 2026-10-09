@@ -51,8 +51,8 @@ public:
             array<int, 26> key = getOcc(str);
             groups[key].push_back(str);
         }
-        for(std::pair p : groups){
-            result.push_back(p.second);
+        for(auto& [key, value] : groups){
+            result.push_back(value);
         }
         return result;
     }
