@@ -7,44 +7,32 @@ using namespace std;
 class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
-        int n = board.size();
-        unordered_set<char> set;
-        //check lines
-        for(int i = 0 ; i < n; i++){
-            for(int j = 0; j < n; j++){
-                if(board[i][j] != '.'){
-                    if(set.contains(board[i][j])) return false;
-                    set.insert(board[i][j]);
+        int rows[9] = {};
+        int cols[9] = {};
+        int boxes[9] = {};
+        //every number is a bit 1 is the first bit ... 9 is the 9th bit , so if we & for example 000000001 
+        //(meaning there is 1) and 000000011 (meaning there is 1 and 2)
+        //means that the result is 000000001 which isn't 0 meaning there is duplicate
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                char c = board[i][j];
+                if (c == '.') continue;
+
+                int bit = 1 << (c - '1');
+                int box = (i / 3) * 3 + j / 3;
+
+                if ((rows[i] & bit) ||
+                    (cols[j] & bit) ||
+                    (boxes[box] & bit)) {
+                    return false;
                 }
-            }
-            set.clear();
-        }
-        set.clear();
-        //check columns
-        for(int j = 0 ; j < n; j++){
-            for(int i = 0; i < n; i++){
-                if(board[i][j] != '.'){
-                    if(set.contains(board[i][j])) return false;
-                    set.insert(board[i][j]);
-                }
-            }
-            set.clear();
-        }
-        set.clear();
-        //check squares
-        for(int squareCol = 0 ; squareCol < 3 ; squareCol++){
-            for(int squareRow = 0 ; squareRow < 3 ; squareRow++){
-                for(int i = squareCol * 3 ; i < (squareCol + 1) * 3 ; i++){
-                    for(int j = squareRow * 3 ; j < (squareRow + 1) * 3 ; j++){
-                        if(board[i][j] != '.'){
-                            if(set.contains(board[i][j])) return false;
-                            set.insert(board[i][j]);
-                        }
-                    }
-                }
-                set.clear();
+
+                rows[i] |= bit;
+                cols[j] |= bit;
+                boxes[box] |= bit;
             }
         }
+
         return true;
     }
 };
