@@ -4,29 +4,35 @@
 #include <algorithm>
 #include <unordered_map>
 #include "../../common/print.hpp"
+#include <queue>
 using namespace std;
 
 class Solution {
 public:
     
     vector<int> topKFrequent(const vector<int>& nums, int k) {
-        unordered_map<int,int> occ;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>> minHeap;  
+        unordered_map<int,int> freq;
+
+        //Calculate frequency like earlier (don't need to check if it exists ,, already initialized to 0)
+        for ( int num : nums )
+        {
+            freq[num]++;
+        }
+        //Push to min heap and remove the head (lowest frequency) if the size is bigger than k
+        for (auto& [num, count] : freq)
+        {
+            minHeap.push({count, num});
+            if( (int)minHeap.size() > k ) minHeap.pop();
+        }
+        
         vector<int> result;
-        for(int num : nums){
-            if(!occ.contains(num)){
-                occ[num] = 1;
-            }
-            else{
-                occ[num]++;
-            }
+        //append all of the min heap to result
+        while (!minHeap.empty()) {
+            result.push_back(minHeap.top().second);
+            minHeap.pop();
         }
-        vector<pair<int, int>> vec(occ.begin(), occ.end());
-        std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {
-            return a.second > b.second;
-        });
-        for(int i = 0 ; i < k ; i++){
-            result.push_back(vec[i].first);
-        }
+         
         return result;
     }
 };
