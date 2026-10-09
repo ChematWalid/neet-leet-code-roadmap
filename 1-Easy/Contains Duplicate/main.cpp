@@ -9,13 +9,11 @@ public:
         for(int num : nums){
             if(occ.contains(num)){
                 occ[num]++;
+                return true;
             }
             else{
                 occ[num] = 1;
             }
-        }
-        for(std::pair<int, int> p : occ){
-            if(p.second > 1) return true;
         }
         return false;
     }
