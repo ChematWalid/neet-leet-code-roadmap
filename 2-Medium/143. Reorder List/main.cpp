@@ -10,10 +10,10 @@ struct ListNode {
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        if(head == NULL || head->next == NULL) return head;
-        ListNode* prev = NULL;
+        if(head == nullptr || head->next == nullptr) return head;
+        ListNode* prev = nullptr;
         ListNode* curr = head;
-        while(curr != NULL){
+        while(curr != nullptr){
             ListNode* temp = curr->next;
             curr->next = prev;
             prev = curr;
@@ -26,7 +26,7 @@ public:
         if(!head || !head->next) return;
         //first find the half and store the prev of it so i can reverse everything after it
         ListNode* half = head;
-        ListNode* prev = NULL;
+        ListNode* prev = nullptr;
         ListNode* fastHalf = head;
         while(fastHalf && fastHalf->next){
             prev = half;
@@ -34,11 +34,11 @@ public:
             fastHalf = fastHalf->next->next;
         }
 
-        prev->next = NULL; // make it null to disconnect the halfs so there will be no cycles (for example in 1-2-3-4-5 , if we do prev->next = reverseList(half) , 5->2 and 2->5)
+        prev->next = nullptr; // make it null to disconnect the halfs so there will be no cycles (for example in 1-2-3-4-5 , if we do prev->next = reverseList(half) , 5->2 and 2->5)
         half = reverseList(half);
         ListNode* curr = head;
-        ListNode* currNext = NULL;
-        ListNode* halfNext = NULL;
+        ListNode* currNext = nullptr;
+        ListNode* halfNext = nullptr;
         //From 1 2 3 4 -> 1 2 4 3 , half is 4
         //now we merge 
         bool firstTurn = true;

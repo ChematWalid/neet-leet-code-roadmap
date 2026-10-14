@@ -14,10 +14,10 @@ class Solution {
 public:
     //intuition : have 2 pointers , and make the next of the second the first and go forward 
     ListNode* reverseList(ListNode* head) {
-        if(head == NULL || head->next == NULL) return head;
-        ListNode* prev = NULL;
+        if(head == nullptr || head->next == nullptr) return head;
+        ListNode* prev = nullptr;
         ListNode* curr = head;
-        while(curr != NULL){
+        while(curr != nullptr){
             ListNode* temp = curr->next;
             curr->next = prev;
             prev = curr;

@@ -39,7 +39,7 @@ public:
             }
             curr = curr->next;
         }
-        //one of the lists or both ended , so the next of curr is the one that didn't end , which is the rest of the list , if both ended , then that's NULL
+        //one of the lists or both ended , so the next of curr is the one that didn't end , which is the rest of the list , if both ended , then that's nullptr
         curr->next = list1 ? list1 : list2;
 
         return head;
