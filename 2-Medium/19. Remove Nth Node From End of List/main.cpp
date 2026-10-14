@@ -24,9 +24,23 @@ public:
     }
     //since recommended time comlexity is O(n) , then my first intuition is to reverse , remove , then reverse again
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        head = reverseList(head);
+        ListNode* list = reverseList(head);
+        ListNode* curr = list;
         ListNode* prev = nullptr;
-        
+        int idx = 1;
+        while(curr && idx < n){
+            prev = curr;
+            curr = curr->next;
+            idx++;
+        }
+        if(prev && prev->next){
+            prev->next = curr->next;
+        }
+        else{
+            curr = curr->next;
+            list = curr;
+        }
+        return reverseList(list);
     }
 };
 
