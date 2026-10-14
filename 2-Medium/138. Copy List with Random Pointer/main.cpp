@@ -40,7 +40,7 @@ public:
         currentNew = copy;
 
         while (currentOriginal != nullptr) {
-            currentNew->random = currentOriginal->random == nullptr
+            currentNew->random = (currentOriginal->random == nullptr)
                 ? nullptr
                 : mapOldToNew[currentOriginal->random];
 
