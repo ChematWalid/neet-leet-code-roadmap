@@ -48,16 +48,24 @@ public:
 
         return head;
     }
+    //divide and conquer like merge sort , using merge2lists , dividing the list until we have only 1 list , then we begin merging until we have only 1 list again , same concept as merge sort
+    ListNode* mergeRange(vector<ListNode*>& lists, int left, int right) {
+        if (left == right)
+            return lists[left];
+
+        int mid = left + (right - left) / 2;
+
+        ListNode* l1 = mergeRange(lists, left, mid);
+        ListNode* l2 = mergeRange(lists, mid + 1, right);
+
+        return mergeTwoLists(l1, l2);
+    }
     //this solution is O(n*k) where n is the average length of the lists and k is the number of lists , because we are merging k lists one by one , so we are traversing all the nodes in all the lists , which is n*k
     //but this isn't the most optimal
-    
+
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         if (lists.empty()) return nullptr;
-        int n = lists.size();
-        for(int i = 1 ; i < n ; i++){
-            lists[0] = mergeTwoLists(lists[0], lists[i]);
-        }
-        return lists[0];
+        return mergeRange(lists, 0, lists.size() - 1);
     }
 };
 
