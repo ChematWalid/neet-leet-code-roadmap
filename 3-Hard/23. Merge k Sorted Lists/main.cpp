@@ -62,10 +62,39 @@ public:
     }
     //this solution is O(n*k) where n is the average length of the lists and k is the number of lists , because we are merging k lists one by one , so we are traversing all the nodes in all the lists , which is n*k
     //but this isn't the most optimal
+    //found the O(n*log(k)) solution , but i can find the one with constant space (of the recursion)
+    //this solution is the fastest
+    // L1 L2 L3 L4 L5 L6 L7 L8
+    // this gets merged into
+    // A     B     C     D
+    // that's why we change the step by 2 , because every time the list is divided in half and i needs to jump by that factor
+    // then
+    // A'          B'
 
+    // step is 4
+    // then 
+    // A''
+    // L1  L2  L3  L4  L5  L6  L7  L8
+    // \ /     \ /     \ /     \ /
+    // A       B       C       D       step = 1
+
+    //     A       B       C       D
+    //     \     /         \     /
+    //         A'               B'       step = 2
+
+    //             A'       B'
+    //             \     /
+    //                 A''                  step = 4
+    
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if (lists.empty()) return nullptr;
-        return mergeRange(lists, 0, lists.size() - 1);
+        if(lists.empty()) return nullptr;
+        int n = lists.size();
+        for(int step = 1; step < n; step *= 2) {
+            for(int i = 0; i + step < n; i += step * 2) {
+                lists[i] = mergeTwoLists(lists[i], lists[i + step]);
+            }
+        }
+        return lists[0];
     }
 };
 
